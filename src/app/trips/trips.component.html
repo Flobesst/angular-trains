@@ -1,0 +1,25 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Trains for departure</div>
+  	<table class="table">
+  		<tr>
+  			<th>#</th>
+  			<th>Destination</th>
+  			<th>Time</th>
+  			<th>Status</th>
+  			<th>Way</th>
+  		</tr>
+  		<tr *ngFor="let trip of trips">
+  			<td>{{ trip.train_number }}</td>
+  			<td>{{ trip.destination }}</td>
+  			<td>
+  				{{ trip.time }}
+  				<div *ngIf="trip.delay">+ {{ trip.delay }} min.</div>
+  			</td>
+  			<td [class.danger]="trip.cancelled">
+                <span *ngIf="trip.cancelled">Cancelled</span>
+                <span *ngIf="!trip.cancelled">Scheduled</span>
+            </td>
+  			<td>{{ trip.way }}</td>
+  		</tr>
+  	</table>
+</div>

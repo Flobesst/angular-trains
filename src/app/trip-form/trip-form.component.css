@@ -1,0 +1,8 @@
+.search-city-results > div {
+	margin: 5px 0 0 13px;
+	cursor: pointer;
+}
+
+	.search-city-results > div:hover {
+		font-weight: bold;
+	}

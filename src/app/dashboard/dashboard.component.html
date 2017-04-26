@@ -1,0 +1,93 @@
+<div class="panel panel-default">
+	<div class="panel-heading">Trains for departure</div>
+  	<table class="table">
+  		<tr>
+  			<th>#</th>
+  			<th>Destination</th>
+  			<th>Time</th>
+  			<th>Status</th>
+  			<th>Way</th>
+  			<th width="20%">Actions</th>
+  		</tr>
+  		<tr *ngFor="let trip of trips">
+  			<td>{{ trip.train_number }}</td>
+  			<td>{{ trip.destination }}</td>
+  			<td>
+  				{{ trip.time }}
+  				<div *ngIf="trip.delay">+ {{ trip.delay }} min.</div>
+  			</td>
+  			<td [class.danger]="trip.cancelled">
+                <span *ngIf="trip.cancelled">Cancelled</span>
+                <span *ngIf="!trip.cancelled">Scheduled</span>
+            </td>
+  			<td>{{ trip.way }}</td>
+  			<td>
+  				<a [routerLink]="['/dashboard/trips/detail', trip.id]" class="btn btn-primary">Edit</a>
+  				<button (click)="deleteTrip(trip)" class="btn btn-danger">Delete</button>
+  			</td>
+  		</tr>
+  	</table>
+  	<div class="panel-body">
+  		<a routerLink="/dashboard/trips/create" class="btn btn-primary">Add a trip</a>
+  	</div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Cities available</div>
+	<table class="table">
+		<tr>
+			<th>City</th>
+			<th width="20%">Actions</th>
+		</tr>
+		<tr *ngFor="let city of cities">
+			<td>{{ city.name }}</td>
+			<td>
+				<button (click)="deleteCity(city)" type="button" class="btn btn-danger">Delete</button>
+			</td>
+		</tr>
+	</table>
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-4">
+            <input #newCity
+              type="text" class="form-control" placeholder="City">
+        </div>
+        <div class="col-sm-8">
+            <button (click)="addCity(newCity.value); newCity.value=''"
+              type="button" class="btn btn-primary">Add new city</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="panel panel-default">
+	<div class="panel-heading">Ways available</div>
+	<table class="table">
+		<tr>
+			<th>Way</th>
+			<th width="20%">Actions</th>
+		</tr>
+		<tr *ngFor="let way of ways">
+			<td>{{ way.name }}</td>
+			<td>
+				<button (click)="deleteWay(way)" type="button" class="btn btn-danger">Delete</button>
+			</td>
+		</tr>
+	</table>
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <div class="col-sm-4">
+            <input #newWay
+              type="text" class="form-control" placeholder="City">
+        </div>
+        <div class="col-sm-8">
+            <button (click)="addWay(newWay.value)"
+              type="button" class="btn btn-primary">Add new way</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

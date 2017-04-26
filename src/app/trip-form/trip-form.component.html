@@ -1,0 +1,94 @@
+<div class="panel panel-primary" *ngIf="trip">
+	<div class="panel-heading" *ngIf="!editMode">Create a new trip</div>
+	<div class="panel-heading" *ngIf="editMode">Edit a trip</div>
+	<div class="panel-body">
+		<form #tripForm="ngForm" (ngSubmit)="onSubmit()"
+			class="form-horizontal">
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="train_number">Train #:</label>
+    			<div class="col-sm-10">
+      				<input
+      					[(ngModel)]="trip.train_number" #trainNumber="ngModel"
+      					type="text" name="train_number" id="train_number" class="form-control" placeholder="Train number" required>
+      				<div [hidden]="trainNumber.valid || trainNumber.pristine" class="alert alert-danger">Train number is required</div>
+    			</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="destination">Destination:</label>
+    			<div class="col-sm-10">
+    				<input
+      					[(ngModel)]="trip.destination" #destination="ngModel" #destinationField
+      					(keyup)="searchCity(destination.value)"
+      					type="text" name="destination" id="destination" class="form-control" placeholder="Destination" required>
+      				<div class="search-city-results">
+	      				<div
+	      					*ngFor="let city of cities | async"
+	      					(click)="trip.destination=city.name">
+	      					{{ city.name }}
+	      				</div>
+      				</div>
+      				<div [hidden]="destination.valid || destination.pristine" class="alert alert-danger">Destination is required</div>
+    			</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="time">Time:</label>
+    			<div class="col-sm-10">
+    				<input
+      					[(ngModel)]="trip.time" #time="ngModel"
+      					type="text" name="time" id="time" class="form-control" placeholder="Time" required>
+      				<div [hidden]="time.valid || time.pristine" class="alert alert-danger">Time is required</div>
+    			</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="delay">Delay:</label>
+    			<div class="col-sm-10">
+    				<div class="input-group">
+	    				<input
+	      					[(ngModel)]="trip.delay" #delay="ngModel"
+	      					type="number" name="delay" id="delay" class="form-control" placeholder="0" required>
+						<span class="input-group-addon">minutes</span>
+					</div>
+      				<div [hidden]="delay.valid || delay.pristine" class="alert alert-danger">Delay is required (0 = no delay)</div>
+    			</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="destination">Canceled:</label>
+    			<div class="col-sm-10">
+					<label class="radio-inline">
+	    				<input
+	      					[(ngModel)]="trip.cancelled"
+	      					[value]="true" #cancelled="ngModel"
+	      					type="radio" name="cancelled">Yes
+	    			</label>
+					<label class="radio-inline">
+	    				<input
+	      					[(ngModel)]="trip.cancelled"
+	      					[value]="false" #cancelled="ngModel"
+	      					type="radio" name="cancelled">No
+	    			</label>
+    			</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2" for="way">Way:</label>
+    			<div class="col-sm-10">
+    				<select
+    					[(ngModel)]="trip.way"
+    					#way="ngModel"
+    					name="way" class="form-control" id="way" required>
+						<option *ngFor="let way of ways" [value]="way.name">{{way.name}}</option>
+					</select>
+					<div [hidden]="way.valid || way.pristine" class="alert alert-danger">Way is required</div>
+    			</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button (click)="goBack()" class="btn btn-default">Cancel</button>
+					<button [disabled]="!tripForm.form.valid" *ngIf="!editMode"
+					type="submit" class="btn btn-primary">Create</button>
+					<button [disabled]="!tripForm.form.valid" *ngIf="editMode"
+					type="submit" class="btn btn-primary">Update</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
